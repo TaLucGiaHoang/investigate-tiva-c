@@ -1,0 +1,46 @@
+Is TM4C123 similar to Arduino?
+https://arduino.stackexchange.com/questions/3733/is-tm4c123-similar-to-arduino
+
+
+Arduino Shield List
+Pin usage details for 317 shields from 125 makers, and counting!
+http://shieldlist.org/dfrobot
+
+
+Tiva C Series TM4C1294 Connected LaunchPad Software Packages
+SW-EK-TM4C1294XL 
+http://www.ti.com/tool/SW-EK-TM4C1294XL?keyMatch=TIVA%20C&tisearch=Search-EN-everything
+
+
+ARM® Cortex®-M4F-Based MCU TM4C1294 Connected LaunchPad™ Evaluation Kit
+EK-TM4C1294XL 
+http://www.ti.com/tool/EK-TM4C1294XL#buy
+
+
+ARM® Cortex®-M4F Based MCU TM4C123G LaunchPad™ Evaluation Kit
+EK-TM4C123GXL 
+http://www.ti.com/tool/EK-TM4C123GXL#buy
+
+
+TivaWare™ for C Series (Complete) 
+SW-TM4C 
+http://www.ti.com/tool/SW-TM4C   (Sofware for Tiva C Series)
+http://software-dl.ti.com/tiva-c/SW-TM4C/latest/index_FDS.html   [Download]
+
+
+[PDF] Tiva™ TM4C123GH6PM Microcontroller DATA SHEET
+http://www.ti.com/lit/ds/spms376e/spms376e.pdf
+
+[PDF] 
+http://software-dl.ti.com/tiva-c/SW-TM4C/latest/exports/SW-TM4C-DRL-UG-2.1.4.178.pdf
+
+TivaWare™ Peripheral Driver Library
+User's Guide
+Code Composer Studio Downloads
+http://software-dl.ti.com/ccs/esd/documents/ccs_downloads.html
+- Licensing: CCSv7 and later are Technology Software Publicly Available (TSPA) compliant. This means that it does not require a paid license.
+- Free license for older versions
+    With the release of CCSv7 all previous CCSv4, CCSv5 and CCSv6 releases are free of charge. 
+    
+TI's Cloud Tools
+https://dev.ti.com/

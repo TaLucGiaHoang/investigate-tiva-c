@@ -1,0 +1,8 @@
+SysConfig
+
+Start a new Design
+- Software Product: Unselected
+- Device: TM4C123x
+- Part: TM4C123GH6PM
+- Package: 64 Pin QFP|16x16
+	
