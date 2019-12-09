@@ -14,33 +14,55 @@ http://www.ti.com/tool/SW-EK-TM4C1294XL?keyMatch=TIVA%20C&tisearch=Search-EN-eve
 
 ARM® Cortex®-M4F-Based MCU TM4C1294 Connected LaunchPad™ Evaluation Kit
 EK-TM4C1294XL 
-http://www.ti.com/tool/EK-TM4C1294XL#buy
+http://www.ti.com/tool/EK-TM4C1294XL
 
 
 ARM® Cortex®-M4F Based MCU TM4C123G LaunchPad™ Evaluation Kit
 EK-TM4C123GXL 
-http://www.ti.com/tool/EK-TM4C123GXL#buy
+http://www.ti.com/tool/EK-TM4C123GXL
 
 
-TivaWare™ for C Series (Complete) 
-SW-TM4C : Includes royalty-free libraries (Peripheral, USB, Graphics, Sensor) and kit-/peripheral-specific code examples for all TM4C devices
-http://www.ti.com/tool/SW-TM4C   (Sofware for Tiva C Series)
-http://software-dl.ti.com/tiva-c/SW-TM4C/latest/index_FDS.html   [Download]
-
-
-[PDF] Tiva™ TM4C123GH6PM Microcontroller DATA SHEET
-http://www.ti.com/lit/ds/spms376e/spms376e.pdf
-
-[PDF] 
-http://software-dl.ti.com/tiva-c/SW-TM4C/latest/exports/SW-TM4C-DRL-UG-2.1.4.178.pdf
-
-TivaWare™ Peripheral Driver Library
-User's Guide
 Code Composer Studio Downloads
 http://software-dl.ti.com/ccs/esd/documents/ccs_downloads.html
 - Licensing: CCSv7 and later are Technology Software Publicly Available (TSPA) compliant. This means that it does not require a paid license.
 - Free license for older versions
     With the release of CCSv7 all previous CCSv4, CCSv5 and CCSv6 releases are free of charge. 
-    
+
+
+TivaWare™ for C Series (Complete) 
+SW-TM4C : Includes royalty-free libraries (Peripheral, USB, Graphics, Sensor) and kit-/peripheral-specific code examples for all TM4C devices
+http://www.ti.com/tool/SW-TM4C   (Sofware for Tiva C Series)     [Download]
+http://software-dl.ti.com/tiva-c/SW-TM4C/latest/index_FDS.html   [Download]
+
+[PDF] Tiva™ TM4C123GH6PM Microcontroller DATA SHEET
+http://www.ti.com/lit/ds/spms376e/spms376e.pdf
+
+[PDF] TivaWare™ Peripheral Driver Library
+TivaWare for C Series Peripheral Driver Library User Guide
+http://software-dl.ti.com/tiva-c/SW-TM4C/latest/exports/SW-TM4C-DRL-UG-2.1.4.178.pdf
+
+[PDF] TivaWare™ Sensor Library
+TivaWare for C Series Sensor Library User Guide
+http://software-dl.ti.com/tiva-c/SW-TM4C/latest/exports/SW-TM4C-SENSORLIB-UG-2.1.4.178.pdf
+
+[PDF] TivaWare™ Boot Loader
+http://software-dl.ti.com/tiva-c/SW-TM4C/latest/exports/SW-TM4C-BOOTLDR-UG-2.1.4.178.pdf
+
+[PDF] TivaWare™ USB Library
+TivaWare for C Series USB Library User Guide
+http://software-dl.ti.com/tiva-c/SW-TM4C/latest/exports/SW-TM4C-USBL-UG-2.1.4.178.pdf
+
+[PDF] TivaWare™ Graphics Library
+TivaWare for C Series Graphics Library User Guide
+http://software-dl.ti.com/tiva-c/SW-TM4C/latest/exports/SW-TM4C-GRL-UG-2.1.4.178.pdf
+
+[PDF] TivaWare™ Graphics Library Display Drivers
+Tiva™ C Series Graphics Library Display Drivers
+http://www.ti.com/lit/an/spma055/spma055.pdf
+
 TI's Cloud Tools
 https://dev.ti.com/
+
+Flash Programmer, GUI and Command Line
+LMFLASHPROGRAMMER 
+http://www.ti.com/tool/LMFLASHPROGRAMMER

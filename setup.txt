@@ -18,3 +18,4 @@ Install directory: C:\ti\TivaWare_C_Series-2.1.4.178
 3. Flash Programmer, GUI and Command Line
 LMFlashProgrammer_1613.zip
 http://www.ti.com/tool/LMFLASHPROGRAMMER
+C:\Program Files (x86)\Texas Instruments\Stellaris\LM Flash Programmer\
