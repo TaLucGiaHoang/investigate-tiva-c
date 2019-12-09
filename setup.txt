@@ -1,0 +1,20 @@
+1. Code Composer Studio Downloads
+ccs_setup_9.2.0.00013.exe (online install)
+CCS9.2.0.00013_win64.zip (offline install)
+
+http://software-dl.ti.com/ccs/esd/documents/ccs_downloads.html
+- Licensing: CCSv7 and later are Technology Software Publicly Available (TSPA) compliant. This means that it does not require a paid license.
+- Free license for older versions
+    With the release of CCSv7 all previous CCSv4, CCSv5 and CCSv6 releases are free of charge. 
+
+Install directory: C:\ti\ccs920
+
+
+2. SW-TM4C
+SW-TM4C-2.1.4.178.exe
+http://software-dl.ti.com/tiva-c/SW-TM4C/latest/index_FDS.html
+Install directory: C:\ti\TivaWare_C_Series-2.1.4.178
+
+3. Flash Programmer, GUI and Command Line
+LMFlashProgrammer_1613.zip
+http://www.ti.com/tool/LMFLASHPROGRAMMER

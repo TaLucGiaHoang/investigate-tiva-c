@@ -1,4 +1,4 @@
-Is TM4C123 similar to Arduino?
+﻿Is TM4C123 similar to Arduino?
 https://arduino.stackexchange.com/questions/3733/is-tm4c123-similar-to-arduino
 
 
@@ -23,7 +23,7 @@ http://www.ti.com/tool/EK-TM4C123GXL#buy
 
 
 TivaWare™ for C Series (Complete) 
-SW-TM4C 
+SW-TM4C : Includes royalty-free libraries (Peripheral, USB, Graphics, Sensor) and kit-/peripheral-specific code examples for all TM4C devices
 http://www.ti.com/tool/SW-TM4C   (Sofware for Tiva C Series)
 http://software-dl.ti.com/tiva-c/SW-TM4C/latest/index_FDS.html   [Download]
 
