@@ -34,6 +34,10 @@ SW-TM4C : Includes royalty-free libraries (Peripheral, USB, Graphics, Sensor) an
 http://www.ti.com/tool/SW-TM4C   (Sofware for Tiva C Series)     [Download]
 http://software-dl.ti.com/tiva-c/SW-TM4C/latest/index_FDS.html   [Download]
 
+[PDF] Tiva™C Series TM4C123G LaunchPad Evaluation Board
+Tiva C Series TM4C123G LaunchPad Evaluation Kit User's Manual
+http://www.ti.com/lit/ug/spmu296/spmu296.pdf
+
 [PDF] Tiva™ TM4C123GH6PM Microcontroller DATA SHEET
 http://www.ti.com/lit/ds/spms376e/spms376e.pdf
 
