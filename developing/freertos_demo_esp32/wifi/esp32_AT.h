@@ -8,9 +8,11 @@
 #ifndef ESP32_AT_H_
 #define ESP32_AT_H_
 
+#include <stdint.h>
 
-void esp32_create_tasks(void);
+uint32_t esp32_create_tasks(void);
 int esp32_send_cmd(const char* cmd, int wait_ms);
+unsigned char drv_esp32_uart_getc(void);
 size_t esp32_recv(char* msg, int msg_len);
 
 void esp32_reset_module(void);

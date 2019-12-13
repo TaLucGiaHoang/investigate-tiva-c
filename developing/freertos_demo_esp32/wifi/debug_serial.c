@@ -46,3 +46,9 @@ int debug_puts(const char *s)
 
 //#define debug_puts(fmt, args...) UARTprintf("DEBUG: %s:%d:%s(): " fmt, \
 //    __FILE__, __LINE__, __func__, ##args)
+
+
+//xSemaphoreTake(g_pUARTSemaphore, portMAX_DELAY);
+//UARTprintf("Led blinking frequency is %d ms.\n",
+//           (ui32LEDToggleDelay * 2));
+//xSemaphoreGive(g_pUARTSemaphore);

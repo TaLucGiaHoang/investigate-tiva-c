@@ -1,10 +1,10 @@
 #include <string.h>
-#include <metal/led.h>
 
 #include "debug_serial.h"
 
 #include "drv_esp32.h"
 #include "esp32_AT.h"
+#include "delay.h"
 
 /* Kernel includes. */
 #include "FreeRTOS.h"
@@ -13,19 +13,18 @@
 #include "semphr.h"
 
 
-#define delay_s(s)    vTaskDelay( ( TickType_t )(1000*s) / portTICK_PERIOD_MS )
-#define delay_ms(ms)    vTaskDelay( ( TickType_t )ms / portTICK_PERIOD_MS )
-
-
 enum {
     MSG_SEND_STRING,
 	MSG_RECV_STRING,
 	MSG_CLEAR_STRING,
 };
 
+
 static char messageReceive[ESP_AT_BUFFER_SIZE];
 static QueueHandle_t xQueueRx, xQueueTx, xQueueRxLen;
 static SemaphoreHandle_t xSemaphore = NULL; // spi1 semaphore
+
+extern xSemaphoreHandle g_pUARTSemaphore;
 
 struct ESP32_ST
 {
@@ -35,11 +34,16 @@ struct ESP32_ST
 } s_esp32;
 
 static void prvESP32Task(void* pvParameters);
+#ifdef USE_SPI
 static void prvSpiRxTask(void* pvParameters);
+#else // USE UART
+static void prvUartRxTask(void* pvParameters);
+#endif
 static int queue_send_cmd(int id, void* data, int len);
 static int queue_read_msg(char* s, int s_len);
 static int queue_send_msg_len(size_t msg_len);
 
+#ifdef USE_SPI
 static void prvSpiRxTask( void *pvParameters )
 {
 	/* Prevent the compiler warning about the unused parameter. */
@@ -51,13 +55,13 @@ static void prvSpiRxTask( void *pvParameters )
 	int ret = 0;
 	memset(s, 0, sizeof(messageReceive));
 	xSemaphoreTake(xSemaphore, portMAX_DELAY);
-//	debug_puts("Start ");debug_puts(__func__);debug_puts("\n");
+	debug_puts("Start ");debug_puts(__func__);debug_puts("\n");
 	xSemaphoreGive(xSemaphore);
 	for( ;; )
 	{
 
 		if( xQueueRx != 0 )
-		{
+		{debug_puts(__func__);debug_puts("\n");
 			s = messageReceive;
 			s[0] = 0;
 			len = 0;
@@ -74,11 +78,13 @@ static void prvSpiRxTask( void *pvParameters )
 				if(len > 0) {
 					s[len] = 0;
 					debug_puts("esp32> ");  // DEBUG
-					debug_puts(s);  // DEBUG
+
 
 					// send to queue
 					while(*s) {
 						c = *(s);
+						debug_putc(c);  // DEBUG
+
 						if( xQueueSend( xQueueRx, ( void * ) &c, ( TickType_t )2000 ) != pdPASS )
 						{
 							/* Failed to post the message. */
@@ -99,15 +105,64 @@ static void prvSpiRxTask( void *pvParameters )
     vTaskDelete(NULL);
     vAssertCalled();
 }
+#else
+static void prvUartRxTask( void *pvParameters )
+{
+    /* Prevent the compiler warning about the unused parameter. */
+    ( void ) pvParameters;
+    char c;
+    int i = 0;
+    char *s = messageReceive;
 
+    memset(s, 0, sizeof(messageReceive));
+
+    xSemaphoreTake(g_pUARTSemaphore, portMAX_DELAY);
+    debug_puts("Start ");debug_puts(__func__);debug_puts("\n");
+    xSemaphoreGive(g_pUARTSemaphore);
+    for( ;; )
+    {
+
+        if( xQueueRx != 0 )
+        {
+            c = drv_esp32_uart_getc();
+        ///////////////
+            if(i == 0)
+            {
+                debug_puts("esp32> ");  // DEBUG
+            }
+            debug_putc(c);  // DEBUG
+
+            /* Collect 1 line */
+            s[i++] = c;
+            if(c == '\n')
+            {
+                s[i] = 0;
+                i = 0;
+                s = messageReceive;
+            }
+            // send to queue
+            if( xQueueSend( xQueueRx, ( void * ) &c, ( TickType_t )0  /*portMAX_DELAY*/ ) != pdPASS )
+            {
+                /* Failed to post the message, even after 10 ticks. */
+                debug_puts("xQueueRx is full --> clear\n");
+                queue_read_msg(0,0); // clear queue after 2000 ticks
+                xQueueSend( xQueueRx, ( void * ) &c, ( TickType_t )0 ); // re-send queue
+            }
+        }
+    }
+    vTaskDelete(NULL);
+//    vAssertCalled();
+}
+#endif
 static void prvESP32Task(void* pvParameters)
 {
 	/* Remove compiler warning about unused parameter. */
 	( void ) pvParameters;
 	struct ESP32_ST esp32;
-	xSemaphoreTake(xSemaphore, portMAX_DELAY);
-	//debug_puts("Start ");debug_puts(__func__);debug_puts("\n");
-	xSemaphoreGive(xSemaphore);
+
+    xSemaphoreTake(g_pUARTSemaphore, portMAX_DELAY);
+    debug_puts("Start ");debug_puts(__func__);debug_puts("\n");
+    xSemaphoreGive(g_pUARTSemaphore);
 	for(;;)
 	{
 		if( xQueueTx != 0 )
@@ -116,16 +171,16 @@ static void prvESP32Task(void* pvParameters)
 			{
 			    /* Failed to get the message. */
 			} else
-			{
-				xSemaphoreTake(xSemaphore, portMAX_DELAY);
+			{debug_puts(__func__);debug_puts("\n");
 				int id = s_esp32.id;
 				switch (id)
 				{
 				case MSG_SEND_STRING:
 				{
 					char *data = (char*)esp32.data;
-					int len = esp32.len;
+//					xSemaphoreTake(xSemaphore, portMAX_DELAY);
 					drv_esp32_send(data);
+//					xSemaphoreGive(xSemaphore);
 					break;
 				}
 				case MSG_RECV_STRING:
@@ -151,11 +206,11 @@ static void prvESP32Task(void* pvParameters)
 				}
 				case MSG_CLEAR_STRING:
 				{
-					char* msg = (char*)esp32.data;
-					int len = esp32.len;
-					int recv_len = 0;
+//					char* msg = (char*)esp32.data;
+//					int len = esp32.len;
+//					int recv_len = 0;
 					/* Read esp32 response messages */
-					recv_len = queue_read_msg(0,0); // recv_len = queue_read_msg(msg, len);
+					queue_read_msg(0,0); // recv_len = queue_read_msg(msg, len);
 					break;
 				}
 				default:
@@ -163,7 +218,6 @@ static void prvESP32Task(void* pvParameters)
 					break;
 				};
 				}
-				xSemaphoreGive(xSemaphore);
 			}
 		} else
 		{
@@ -173,7 +227,7 @@ static void prvESP32Task(void* pvParameters)
 	}
 
     vTaskDelete(NULL);
-    vAssertCalled();
+//    vAssertCalled();
 }
 
 static int queue_send_cmd(int id, void* data, int len)
@@ -239,17 +293,19 @@ static int queue_send_msg_len(size_t msg_len)
 	return 0;
 }
 
-void esp32_create_tasks(void)
+uint32_t esp32_create_tasks(void)
 {
 	xSemaphore = xSemaphoreCreateMutex();
 	if ( ( xSemaphore ) != NULL )
 	  xSemaphoreGive( ( xSemaphore ) );
 
+	debug_puts("esp32_create_tasks\r\n");
     xQueueRx = xQueueCreate( 1024, sizeof( char ) );
     if( xQueueRx == NULL )
     {
         /* Queue was not created and must not be used. */
         debug_puts("xQueueRx was not created\r\n");
+        return 1;
     }
 
     xQueueTx = xQueueCreate( 2, sizeof( s_esp32 ) );
@@ -257,6 +313,7 @@ void esp32_create_tasks(void)
     {
         /* Queue was not created and must not be used. */
     	debug_puts("xQueueTx was not created\r\n");
+    	return 1;
     }
 
     xQueueRxLen = xQueueCreate( 1, sizeof( uint32_t ) );
@@ -264,10 +321,26 @@ void esp32_create_tasks(void)
     {
         /* Queue was not created and must not be used. */
         debug_puts("xQueueRxLen was not created\r\n");
+        return 1;
     }
 
-    xTaskCreate(prvESP32Task, "prvESP32Task", 1024, NULL, 1, NULL);
-    xTaskCreate(prvSpiRxTask, "prvSpiRxTask", 512, NULL, 1, NULL);
+    //
+    // Create the ESP32 AT tasks.
+    //
+    if( xTaskCreate( prvESP32Task, "prvESP32Task", 1024, NULL, 1, NULL ) != pdTRUE )
+    {
+        return 1;
+    }
+
+    if( xTaskCreate( prvUartRxTask, "prvUartRxTask", 512, NULL, 1, NULL ) != pdTRUE )
+    {
+        return 1;
+    }
+
+    //
+    // Success.
+    //
+    return(0);
 }
 
 int esp32_send_cmd(const char* cmd, int wait_ms)

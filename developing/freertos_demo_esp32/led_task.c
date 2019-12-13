@@ -38,6 +38,7 @@
 #include "queue.h"
 #include "semphr.h"
 
+#include "wifi/esp32_AT.h"
 //*****************************************************************************
 //
 // The stack size for the LED toggle task.
@@ -81,6 +82,8 @@ extern xSemaphoreHandle g_pUARTSemaphore;
 // can make the selections by pressing the left and right buttons.
 //
 //*****************************************************************************
+#include <string.h>
+char s_msg[100];
 static void
 LEDTask(void *pvParameters)
 {
@@ -108,11 +111,17 @@ LEDTask(void *pvParameters)
         //
         if(xQueueReceive(g_pLEDQueue, &i8Message, 0) == pdPASS)
         {
+            esp32_send_cmd("AT+CIPSTART\r\n", 1000);
             //
             // If left button, update to next LED.
             //
             if(i8Message == LEFT_BUTTON)
             {
+                memset(s_msg, 0, sizeof(s_msg));
+                esp32_recv(s_msg, sizeof(s_msg));
+                xSemaphoreTake(g_pUARTSemaphore, portMAX_DELAY);
+                UARTprintf("s_msg %s \n", s_msg);
+                xSemaphoreGive(g_pUARTSemaphore);
                 //
                 // Update the LED buffer to turn off the currently working.
                 //

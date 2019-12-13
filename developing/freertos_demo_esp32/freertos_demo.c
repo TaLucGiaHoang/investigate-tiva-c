@@ -29,6 +29,7 @@
 #include "driverlib/gpio.h"
 #include "driverlib/pin_map.h"
 #include "driverlib/rom.h"
+#include "driverlib/rom_map.h"
 #include "driverlib/sysctl.h"
 #include "driverlib/uart.h"
 #include "utils/uartstdio.h"
@@ -39,6 +40,7 @@
 #include "queue.h"
 #include "semphr.h"
 
+#include "wifi/esp32_AT.h"
 //*****************************************************************************
 //
 //! \addtogroup example_list
@@ -159,7 +161,13 @@ ConfigureUART(void)
     // Initialize the UART for console I/O.
     //
     UARTStdioConfig(0, 115200, 16000000);  // UART0 - terminal
-    UARTStdioConfig(1, 115200, 16000000);  // UART1 - esp32
+
+    // UART1 for esp32 communication
+    // Configure the UART for 115200, n, 8, 1
+    //
+    MAP_UARTConfigSetExpClk(UART1_BASE, 16000000, 115200,
+                            (UART_CONFIG_PAR_NONE | UART_CONFIG_STOP_ONE |
+                             UART_CONFIG_WLEN_8));
 }
 
 //*****************************************************************************
@@ -206,6 +214,17 @@ main(void)
     // Create the switch task.
     //
     if(SwitchTaskInit() != 0)
+    {
+
+        while(1)
+        {
+        }
+    }
+
+    //
+    // Create the esp32 task.
+    //
+    if(esp32_create_tasks() != 0)
     {
 
         while(1)
