@@ -1,0 +1,8 @@
+So the LED is connected as follows.
+    RED → PF1
+    BLUE → PF2
+    GREEN → PF3
+
+Therefore to display red we need to output 0x02, here '2' because PF0 is not being used. Similarly to display purple/violet → 0x06, blue → 0x04, aqua blue/ greenish blue → 0x0c, green → 0x08, yellow → 0x09, white → 0x0e and none → 0.
+
+https://www.hackster.io/AkashKollipara/project-2-flashing-all-onboard-led-colour-combinations-fbe092
