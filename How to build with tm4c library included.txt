@@ -8,17 +8,24 @@
 For 'Add dir to #include search path (--include_path, -I)'
 
     ${TI_PRODUCTS_DIR}/TivaWare_C_Series-2.1.4.178  --> C:/ti/TivaWare_C_Series-2.1.4.178
+	${CG_TOOL_ROOT}/include
 
     
 2. Build > ARM Linker > File Search Path
 For 'Include library file or command files as input (--library, -l)'
 Add
+	libc.a
     libdriver.a
+OR  ${SW_ROOT}/driverlib/ccs/Debug/driverlib.lib  --> C:/ti/TivaWare_C_Series-2.1.4.178/driverlib/ccs/Debug/driverlib.lib
 
 For ' Add <dir> to library search path (--search_path, -i)'
 Add
+- for libdriver.a path
     ${TI_PRODUCTS_DIR}/TivaWare_C_Series-2.1.4.178/driverlib/gcc  --> C:/ti/TivaWare_C_Series-2.1.4.178/driverlib/gcc
 
+- for libc.a path
+    ${CG_TOOL_ROOT}/lib  --> C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/lib
+	${CG_TOOL_ROOT}/include --> C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include
 
 Note:
 CG_TOOL_ROOT      is path  C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS
